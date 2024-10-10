@@ -187,6 +187,8 @@ public:
 	bool				AutoReload					( void );
 	bool				IsHidden					( void ) const;
 	void				EjectBrass					( void );
+	// MOD
+	void				Recoil						(void);
 
 	// Network helpers
 	void				NetReload					( void );

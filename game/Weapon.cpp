@@ -3332,3 +3332,28 @@ void rvWeapon::GetDebugInfo ( debugInfoProc_t proc, void* userData ) {
 	idClass::GetDebugInfo ( proc, userData );
 	proc ( "rvWeapon", "state",	stateThread.GetState()?stateThread.GetState()->state->name : "<none>", userData );
 }
+
+/*
+=====================
+MOD rvWeapon::Recoil
+=====================
+*/
+void rvWeapon::Recoil() {
+	idPlayer* player = gameLocal.GetLocalPlayer();
+	idPhysics* physics = player->GetPhysics(); // player physics 
+	if (physics) {
+		idVec3 playerPosition;
+		idMat3 viewAxis;
+		player->GetViewPos(playerPosition, viewAxis); // get the player's view position (origin) and axis (orientation)
+		idVec3 forwardDirection = viewAxis[0];  // forward direction
+		idVec3 recoilForce = forwardDirection * -500;  // force in the opposite (backward) direction
+		// debug output to verify the recoil force and direction
+		// gameLocal.Printf( "Recoil applied with force: %f, direction: %f, %f, %f\n", recoilForce.Length(), forwardDirection.x, forwardDirection.y, forwardDirection.z );
+		idVec3 currentVelocity = physics->GetLinearVelocity(); // player's current velocity
+		idVec3 newVelocity = currentVelocity + recoilForce; // add  recoil force to player's velocity
+		physics->SetLinearVelocity(newVelocity); // set the new velocity
+
+		// debug output to verify new velocity
+		// gameLocal.Printf( "New player velocity: %f, %f, %f\n", newVelocity.x, newVelocity.y, newVelocity.z );
+	}
+}

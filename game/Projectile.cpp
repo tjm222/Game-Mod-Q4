@@ -1110,7 +1110,8 @@ idProjectile::Event_RadiusDamage
 void idProjectile::Event_RadiusDamage( idEntity *ignore ) {
 	const char *splash_damage = spawnArgs.GetString( "def_splash_damage" );
 	if ( splash_damage[0] != '\0' ) {
-		gameLocal.RadiusDamage( physicsObj.GetOrigin(), this, owner, ignore, this, splash_damage, damagePower, &hitCount );
+		// modification here: 
+		gameLocal.RadiusDamage( physicsObj.GetOrigin(), this, owner, ignore, this, 0, damagePower, &hitCount);
 	}
 }
 
